@@ -39,12 +39,12 @@ public class AndroidTest implements ExceptionsReporter {
         driver.manage().timeouts().implicitlyWait(15000, TimeUnit.MILLISECONDS);
         driver.resetApp();
 
-        (new TouchAction(driver)).tap(TapOptions.tapOptions().withElement(ElementOption.element((driver).findElement(By.id("io.testproject.demo:id/name"))))).perform();
+        new TouchAction(driver).tap(TapOptions.tapOptions().withElement(ElementOption.element((driver).findElement(By.id("io.testproject.demo:id/name"))))).perform();
         driver.findElementById("io.testproject.demo:id/name").sendKeys("Andreea");
-        (new TouchAction(driver)).tap(TapOptions.tapOptions().withElement(ElementOption.element((driver).findElement(By.id("io.testproject.demo:id/password"))))).perform();
+        new TouchAction(driver).tap(TapOptions.tapOptions().withElement(ElementOption.element((driver).findElement(By.id("io.testproject.demo:id/password"))))).perform();
         driver.findElementById("io.testproject.demo:id/password").sendKeys("12345");
-        (new TouchAction(driver)).tap(TapOptions.tapOptions().withElement(ElementOption.element((driver).findElement(By.id("io.testproject.demo:id/login"))))).perform();
-        Assert.assertTrue(driver.findElement(By.id("io.testproject.demo:id/greetings")).getText().contains("123Andreea"));
+        new TouchAction(driver).tap(TapOptions.tapOptions().withElement(ElementOption.element((driver).findElement(By.id("io.testproject.demo:id/login"))))).perform();
+        Assert.assertTrue(driver.findElement(By.id("io.testproject.demo:id/greetings")).getText().contains("Andreea"));
     }
 
     @AfterEach
