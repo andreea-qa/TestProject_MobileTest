@@ -1,5 +1,6 @@
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.remote.MobilePlatform;
@@ -26,6 +27,8 @@ public class AndroidTest implements ExceptionsReporter {
     @BeforeEach
     public void setup() throws Exception {
         driver = new AndroidDriver<>(System.getenv("TP_DEV_TOKEN"), getCapabilities(), "Android Test");
+        driver.manage().timeouts().implicitlyWait(15000, TimeUnit.MILLISECONDS);
+        driver.resetApp();
     }
 
     @Override
@@ -36,15 +39,18 @@ public class AndroidTest implements ExceptionsReporter {
     @Test
     public void loginTest() {
 
-        driver.manage().timeouts().implicitlyWait(15000, TimeUnit.MILLISECONDS);
-        driver.resetApp();
+        MobileElement name = driver.findElement(By.id("io.testproject.demo:id/name"));
+        MobileElement password = driver.findElement(By.id("io.testproject.demo:id/password"));
+        MobileElement loginButton = driver.findElement(By.id("io.testproject.demo:id/login"));
 
-        (new TouchAction(driver)).tap(TapOptions.tapOptions().withElement(ElementOption.element((driver).findElement(By.id("io.testproject.demo:id/name"))))).perform();
-        driver.findElementById("io.testproject.demo:id/name").sendKeys("Andreea");
-        (new TouchAction(driver)).tap(TapOptions.tapOptions().withElement(ElementOption.element((driver).findElement(By.id("io.testproject.demo:id/password"))))).perform();
-        driver.findElementById("io.testproject.demo:id/password").sendKeys("12345");
-        (new TouchAction(driver)).tap(TapOptions.tapOptions().withElement(ElementOption.element((driver).findElement(By.id("io.testproject.demo:id/login"))))).perform();
-        Assert.assertTrue(driver.findElement(By.id("io.testproject.demo:id/greetings")).getText().contains("123Andreea"));
+        new TouchAction(driver).tap(TapOptions.tapOptions().withElement(ElementOption.element(name))).perform();
+        name.sendKeys("Andreea");
+        new TouchAction(driver).tap(TapOptions.tapOptions().withElement(ElementOption.element(password))).perform();
+        password.sendKeys("12345");
+        new TouchAction(driver).tap(TapOptions.tapOptions().withElement(ElementOption.element(loginButton))).perform();
+
+        MobileElement greeting = driver.findElement(By.id("io.testproject.demo:id/greetings"));
+        Assert.assertTrue(greeting.getText().contains("Andreea"));
     }
 
     @AfterEach
