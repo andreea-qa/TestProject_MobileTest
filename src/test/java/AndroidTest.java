@@ -30,7 +30,6 @@ public class AndroidTest implements ExceptionsReporter {
         driver = new AndroidDriver<>(System.getenv("TP_DEV_TOKEN"), getCapabilities(), "Android Test");
         driver.manage().timeouts().implicitlyWait(15000, TimeUnit.MILLISECONDS);
         driver.resetApp();
-        loginPage = new LoginPage(driver);
     }
 
     @Override
@@ -40,8 +39,11 @@ public class AndroidTest implements ExceptionsReporter {
 
     @Test
     public void loginTest() {
-        loginPage.login("Andreea", "12345");
-        Assert.assertTrue(loginPage.isLoginSuccessful("Andreea"));
+        var user = "Andreea";
+        var pass = "12345";
+        loginPage = new LoginPage(driver);
+        loginPage.login(user, pass);
+        Assert.assertTrue(loginPage.isLoginSuccessful(user));
     }
 
     @AfterEach
